@@ -45,4 +45,13 @@ class UtilisateurRepositoryDoctrine extends ServiceEntityRepository implements U
 
         return $utilisateurs;
     }
+
+    public function sauvegarder(Utilisateur $utilisateur): Utilisateur
+    {
+        $this->_em->persist($utilisateur);
+        $this->_em->flush();
+        $this->_em->refresh($utilisateur);
+
+        return $utilisateur;
+    }
 }
