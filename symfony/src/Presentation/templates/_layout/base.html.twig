@@ -19,12 +19,6 @@
                 </div>
                 {% block body %}{% endblock %}
             </main>
-
-            {% block modal %}
-                {% include '_partial/modal/_modal.html.twig' only %}
-                {{ encore_entry_script_tags('js/modal') }}
-                {{ encore_entry_script_tags('js/appelAjaxEvenement') }}
-            {% endblock %}
         </div>
 
         {% block html_scripts %}{% include '_layout/html_scripts.html.twig' %}{% endblock %}
