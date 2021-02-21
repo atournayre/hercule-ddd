@@ -1,0 +1,3 @@
+utilisateur_liste:
+  path: /
+  controller: App\Presentation\Controller\Utilisateur\UtilisateurController::liste
