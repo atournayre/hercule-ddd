@@ -2,6 +2,7 @@
 
 namespace App\Application\Utilisateur;
 
+use App\Application\VO\Utilisateur\UtilisateurFormVO;
 use App\Domain\Entity\Utilisateur\Repository\UtilisateurRepositoryInterface;
 use App\Domain\Factory\Utilisateur\UtilisateurFactory;
 
@@ -22,9 +23,9 @@ class UtilisateurCreationService
         $this->utilisateurRepository = $utilisateurRepository;
     }
 
-    public function creer(string $email, string $nom, string $prenom, string $abreviation): int
+    public function creer(UtilisateurFormVO $utilisateurFormVO): int
     {
-        $utilisateur = $this->utilisateurFactory->creer($email, $nom, $prenom, $abreviation);
+        $utilisateur = $this->utilisateurFactory->creer($utilisateurFormVO->email, $utilisateurFormVO->nom, $utilisateurFormVO->prenom, $utilisateurFormVO->abreviation);
 
         $utilisateur = $this->utilisateurRepository->sauvegarder($utilisateur);
 
