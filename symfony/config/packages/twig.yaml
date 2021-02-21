@@ -1,0 +1,8 @@
+twig:
+    default_path: '%kernel.project_dir%/src/Presentation/templates'
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    exception_controller: null
+    form_themes:
+        - '_form/materialize_form_theme.html.twig'
+

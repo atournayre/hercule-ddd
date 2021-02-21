@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+  mysql:
+    image: mysql
+    container_name: mysql
+    command: mysqld --sql_mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION" --default-authentication-plugin=mysql_native_password
+#    --default-authentication-plugin=mysql_native_password
+#    mysqld --sql_mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+    ports: ['3306:3306']
+    working_dir: /application
+    volumes:
+      - ./datas:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=symfony
+      - MYSQL_USER=symfony
+      - MYSQL_PASSWORD=password
+  php:
+    build: ./docker/php/symfony
+    container_name: php
+    ports: ['9000:9001']
+    links:
+      - mysql
+    volumes:
+      - ./symfony:/var/www/symfony:cached
+  nginx:
+    build: ./docker/nginx
+    container_name: nginx
+    ports: ['80:80']
+    links:
+      - php
+    volumes:
+      - ./logs/nginx:/var/log/nginx:cached
+      - ./symfony:/var/www/symfony:cached
