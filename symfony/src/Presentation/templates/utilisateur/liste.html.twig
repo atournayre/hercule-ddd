@@ -2,4 +2,6 @@
 
 {% block body %}
     {{ dump(liste_utilisateurs) }}
+
+    <a href="{{ path('utilisateur_creer') }}">Créer</a>
 {% endblock %}
