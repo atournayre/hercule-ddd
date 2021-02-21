@@ -15,6 +15,11 @@ class Utilisateur implements UserInterface
     protected $resetToken;
     protected $abreviation;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getRoles()
     {
         return $this->roles;
