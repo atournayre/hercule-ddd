@@ -2,6 +2,8 @@
 
 namespace App\Application\Utilisateur;
 
+use App\Domain\DTO\Utilisateur\UtilisateurListeDTO;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use App\Domain\Entity\Utilisateur\Repository\UtilisateurRepositoryInterface;
 
 class UtilisateurListeService
@@ -16,7 +18,11 @@ class UtilisateurListeService
         $this->utilisateurRepository = $utilisateurRepository;
     }
 
-    public function liste()
+    /**
+     * @return UtilisateurListeDTO[]|array
+     * @throws UtilisateurNonTrouveException
+     */
+    public function liste(): array
     {
         return $this->utilisateurRepository->liste();
     }
