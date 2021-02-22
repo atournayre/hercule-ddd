@@ -31,7 +31,7 @@ class UtilisateurCreationService
      * @throws UtilisateurAbreviationExisteException
      * @throws UtilisateurEmailExisteException
      */
-    public function creer(UtilisateurFormVO $utilisateurFormVO): int
+    public function __invoke(UtilisateurFormVO $utilisateurFormVO): int
     {
         $utilisateur = $this->utilisateurRepository->findParEmail($utilisateurFormVO->email);
         if ($utilisateur) {

@@ -46,7 +46,7 @@ class UtilisateurController extends AbstractController
             }
             if ($form->isValid()) {
                 try {
-                    $utilisateurCreationService->creer($utilisateurFormVO);
+                    ($utilisateurCreationService)($utilisateurFormVO);
 
                     $this->addFlash('success', 'L\'utilisateur a été créé.');
 
