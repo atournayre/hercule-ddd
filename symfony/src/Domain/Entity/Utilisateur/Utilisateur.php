@@ -6,6 +6,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class Utilisateur implements UserInterface
 {
+    const ROLE_USER = 'ROLE_USER';
+
     protected $id;
     protected $nom;
     protected $prenom;

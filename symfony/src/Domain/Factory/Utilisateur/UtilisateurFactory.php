@@ -14,6 +14,6 @@ class UtilisateurFactory
             ->setPrenom($prenom)
             ->setAbreviation($abreviation)
             ->setPassword('mot_de_passe_a_reinitialiser')
-            ->setRoles(['ROLE_USER]']);
+            ->setRoles([Utilisateur::ROLE_USER]);
     }
 }
