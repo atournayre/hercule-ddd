@@ -22,6 +22,8 @@ class UtilisateurController extends AbstractController
             $listeUtilisateurs = $utilisateurListe->liste();
         } catch (UtilisateurNonTrouveException $exception) {
             $this->addFlash('error', $exception->getMessage());
+        } catch (Exception $exception) {
+            $this->addFlash('error', 'Une erreur s\'est produite lors de récupération de la liste des utilisateurs.');
         }
 
         return $this->render('utilisateur/liste.html.twig', [
