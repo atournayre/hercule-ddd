@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ utilisateur.nomComplet }}</td>
                 <td>{{ utilisateur.email }}</td>
-                <td><a href="">Modifier</a></td>
+                <td><a href="{{ path('utilisateur_modifier', {id: utilisateur.id}) }}">Modifier</a></td>
             </tr>
         {% endfor %}
         </tbody>

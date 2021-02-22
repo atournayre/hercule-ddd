@@ -19,4 +19,6 @@ interface UtilisateurRepositoryInterface
     public function findParEmail(string $email): ?Utilisateur;
 
     public function findParAbreviation(string $abreviation): ?Utilisateur;
+
+    public function findParId(int $id): ?Utilisateur;
 }

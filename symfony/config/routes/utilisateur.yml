@@ -5,3 +5,7 @@ utilisateur_liste:
 utilisateur_creer:
   path: /creer
   controller: App\Presentation\Controller\Utilisateur\UtilisateurController::creer
+
+utilisateur_modifier:
+  path: /{id}/modifier
+  controller: App\Presentation\Controller\Utilisateur\UtilisateurController::modifier
