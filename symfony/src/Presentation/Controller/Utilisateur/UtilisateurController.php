@@ -10,11 +10,12 @@ use App\Infrastructure\Form\Utilisateur\UtilisateurType;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UtilisateurController extends AbstractController
 {
 
-    public function liste(UtilisateurListeService $utilisateurListe)
+    public function liste(UtilisateurListeService $utilisateurListe): Response
     {
         $listeUtilisateurs = [];
         try {
@@ -28,7 +29,7 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
-    public function creer(Request $request, UtilisateurCreationService $utilisateurCreationService)
+    public function creer(Request $request, UtilisateurCreationService $utilisateurCreationService): Response
     {
         $utilisateurFormVO = new UtilisateurFormVO();
 
