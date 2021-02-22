@@ -5,6 +5,8 @@ namespace App\Presentation\Controller\Utilisateur;
 use App\Application\Utilisateur\UtilisateurCreationService;
 use App\Application\Utilisateur\UtilisateurListeService;
 use App\Application\VO\Utilisateur\UtilisateurFormVO;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationExisteException;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurEmailExisteException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use App\Infrastructure\Form\Utilisateur\UtilisateurType;
 use Exception;
@@ -45,14 +47,15 @@ class UtilisateurController extends AbstractController
             }
             if ($form->isValid()) {
                 try {
-
-                    $utilisateur = $utilisateurCreationService->creer($utilisateurFormVO);
+                    $utilisateurCreationService->creer($utilisateurFormVO);
 
                     $this->addFlash('success', 'L\'utilisateur a été créé.');
 
                     return $this->redirectToRoute('utilisateur_liste');
+                } catch (UtilisateurAbreviationExisteException|UtilisateurEmailExisteException $exception) {
+                    $this->addFlash('error', $exception->getMessage());
                 } catch (Exception $exception) {
-
+                    $this->addFlash('error', 'Une erreur s\'est produite lors de la création de l\'utilisateur.');
                 }
             }
         }

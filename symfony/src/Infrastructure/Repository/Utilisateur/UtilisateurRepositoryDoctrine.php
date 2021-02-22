@@ -8,6 +8,8 @@ use App\Domain\Entity\Utilisateur\Utilisateur;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 class UtilisateurRepositoryDoctrine extends ServiceEntityRepository implements UtilisateurRepositoryInterface
@@ -46,6 +48,12 @@ class UtilisateurRepositoryDoctrine extends ServiceEntityRepository implements U
         return $utilisateurs;
     }
 
+    /**
+     * @param Utilisateur $utilisateur
+     * @return Utilisateur
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function sauvegarder(Utilisateur $utilisateur): Utilisateur
     {
         $this->_em->persist($utilisateur);
@@ -53,5 +61,23 @@ class UtilisateurRepositoryDoctrine extends ServiceEntityRepository implements U
         $this->_em->refresh($utilisateur);
 
         return $utilisateur;
+    }
+
+    /**
+     * @param string $email
+     * @return Utilisateur|null
+     */
+    public function findParEmail(string $email): ?Utilisateur
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
+
+    /**
+     * @param string $abreviation
+     * @return Utilisateur|null
+     */
+    public function findParAbreviation(string $abreviation): ?Utilisateur
+    {
+        return $this->findOneBy(['abreviation' => $abreviation]);
     }
 }

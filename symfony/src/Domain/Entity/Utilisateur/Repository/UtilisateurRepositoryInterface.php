@@ -15,4 +15,8 @@ interface UtilisateurRepositoryInterface
     public function liste(): array;
 
     public function sauvegarder(Utilisateur $utilisateur): Utilisateur;
+
+    public function findParEmail(string $email): ?Utilisateur;
+
+    public function findParAbreviation(string $abreviation): ?Utilisateur;
 }
