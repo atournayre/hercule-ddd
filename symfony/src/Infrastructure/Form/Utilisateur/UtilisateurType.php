@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class UtilisateurType extends AbstractType
 {
@@ -44,6 +45,11 @@ class UtilisateurType extends AbstractType
                             'min' => 3,
                             'max' => 3,
                             'exactMessage' => 'Veuillez renseigner une abréviation contenant {{ limit }} caractères.',
+                        ]),
+                        new Regex([
+                            'pattern' => '/^[A-Z]{3}$/',
+                            'htmlPattern' => '^[a-zA-Z]{3}$',
+                            'message' => 'Cette abréviation n\'est pas valide.',
                         ])
                     ]
                 ]
