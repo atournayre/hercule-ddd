@@ -1,7 +1,24 @@
 {% extends '_layout/base.html.twig' %}
 
 {% block body %}
-    {{ dump(liste_utilisateurs) }}
-
     <a href="{{ path('utilisateur_creer') }}">Créer</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nom complet</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for utilisateur in liste_utilisateurs %}
+            <tr>
+                <td>{{ utilisateur.nomComplet }}</td>
+                <td>{{ utilisateur.email }}</td>
+                <td><a href="">Modifier</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
