@@ -19,7 +19,6 @@ class UtilisateurController extends AbstractController
 
     public function liste(UtilisateurListeService $utilisateurListe): Response
     {
-        $listeUtilisateurs = [];
         try {
             $listeUtilisateurs = $utilisateurListe->liste();
         } catch (UtilisateurNonTrouveException $exception) {
@@ -29,7 +28,7 @@ class UtilisateurController extends AbstractController
         }
 
         return $this->render('utilisateur/liste.html.twig', [
-            'liste_utilisateurs' => $listeUtilisateurs,
+            'liste_utilisateurs' => $listeUtilisateurs ?? [],
         ]);
     }
 
