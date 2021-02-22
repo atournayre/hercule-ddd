@@ -31,7 +31,6 @@ class UtilisateurType extends AbstractType
                             'message' => 'Veuillez renseigner un email valide.',
                         ])
                     ],
-                    'required' => false,
                 ]
             )
             ->add('prenom')
