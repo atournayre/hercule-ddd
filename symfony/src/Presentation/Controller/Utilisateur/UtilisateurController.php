@@ -7,6 +7,7 @@ use App\Application\Utilisateur\UtilisateurListeService;
 use App\Application\Utilisateur\UtilisateurModificationService;
 use App\Application\Utilisateur\UtilisateurService;
 use App\Application\VO\Utilisateur\UtilisateurFormVO;
+use App\Application\VO\Utilisateur\UtilisateurModificationFormVO;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationExisteException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurEmailExisteException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
@@ -78,7 +79,7 @@ class UtilisateurController extends AbstractController
     {
         $utilisateur = $utilisateurService->findParId($id);
 
-        $utilisateurFormVO = new UtilisateurFormVO($utilisateur);
+        $utilisateurFormVO = new UtilisateurModificationFormVO($utilisateur);
 
         $form = $this->createForm(UtilisateurType::class, $utilisateurFormVO);
 
