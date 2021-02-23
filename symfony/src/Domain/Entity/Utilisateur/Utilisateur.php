@@ -2,11 +2,19 @@
 
 namespace App\Domain\Entity\Utilisateur;
 
+use App\Domain\Exception\ChampInvalideException;
+use App\Domain\Exception\EmailInvalideException;
+use App\Domain\Exception\EmailVideException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class Utilisateur implements UserInterface
 {
     const ROLE_USER = 'ROLE_USER';
+
+    // TODO extraire
+    const EMAIL_PATTERN = '/^.+\@\S+\.\S+$/';
+
+    const ABREVIATION_VALIDATION_PATTERN = '/^[A-Z]{3}$/';
 
     protected $id;
     protected $nom;
@@ -52,7 +60,7 @@ class Utilisateur implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
         return $this;
@@ -85,7 +93,7 @@ class Utilisateur implements UserInterface
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(?string $nom): self
     {
         $this->nom = $nom;
         return $this;
@@ -96,7 +104,7 @@ class Utilisateur implements UserInterface
         return $this->abreviation;
     }
 
-    public function setAbreviation(string $abreviation): self
+    public function setAbreviation(?string $abreviation): self
     {
         $this->abreviation = $abreviation;
         return $this;
@@ -107,7 +115,7 @@ class Utilisateur implements UserInterface
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): self
+    public function setPrenom(?string $prenom): self
     {
         $this->prenom = $prenom;
         return $this;
@@ -127,5 +135,72 @@ class Utilisateur implements UserInterface
         $this->abreviation = strtoupper($this->abreviation);
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     * @throws ChampInvalideException
+     * @throws EmailInvalideException
+     * @throws EmailVideException
+     */
+    public function estValide(): bool
+    {
+        return $this->lEmailEstValide()
+            && $this->leNomEstValide()
+            && $this->lePrenomEstValide()
+            && $this->lAbreviationEstValide();
+
+    }
+
+    /**
+     * @return bool
+     * @throws EmailInvalideException
+     * @throws EmailVideException
+     */
+    public function lEmailEstValide(): bool
+    {
+        if (!$this->email) {
+            throw new EmailVideException();
+        }
+        if (!preg_match(self::EMAIL_PATTERN, $this->email)) {
+            throw new EmailInvalideException($this->email);
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     * @throws ChampInvalideException
+     */
+    public function leNomEstValide(): bool
+    {
+        if (!$this->nom) {
+            throw new ChampInvalideException('nom');
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     * @throws ChampInvalideException
+     */
+    public function lePrenomEstValide(): bool
+    {
+        if (!$this->prenom) {
+            throw new ChampInvalideException('prenom');
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     * @throws ChampInvalideException
+     */
+    public function lAbreviationEstValide(): bool
+    {
+        if (!preg_match(self::ABREVIATION_VALIDATION_PATTERN, $this->abreviation)) {
+            throw new ChampInvalideException('abréviation');
+        }
+        return true;
     }
 }

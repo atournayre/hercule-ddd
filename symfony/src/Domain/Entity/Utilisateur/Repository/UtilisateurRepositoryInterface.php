@@ -3,8 +3,10 @@
 namespace App\Domain\Entity\Utilisateur\Repository;
 
 use App\Domain\DTO\Utilisateur\UtilisateurListeDTO;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationVideException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use App\Domain\Entity\Utilisateur\Utilisateur;
+use App\Domain\Exception\EmailVideException;
 
 interface UtilisateurRepositoryInterface
 {
@@ -16,9 +18,19 @@ interface UtilisateurRepositoryInterface
 
     public function sauvegarder(Utilisateur $utilisateur): Utilisateur;
 
-    public function findParEmail(string $email): ?Utilisateur;
+    /**
+     * @param string|null $email
+     * @return Utilisateur|null
+     * @throws EmailVideException
+     */
+    public function findParEmail(?string $email): ?Utilisateur;
 
-    public function findParAbreviation(string $abreviation): ?Utilisateur;
+    /**
+     * @param string|null $abreviation
+     * @return Utilisateur|null
+     * @throws UtilisateurAbreviationVideException
+     */
+    public function findParAbreviation(?string $abreviation): ?Utilisateur;
 
     public function findParId(int $id): ?Utilisateur;
 }

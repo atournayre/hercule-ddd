@@ -9,8 +9,12 @@ use App\Application\Utilisateur\UtilisateurService;
 use App\Application\VO\Utilisateur\UtilisateurFormVO;
 use App\Application\VO\Utilisateur\UtilisateurModificationFormVO;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationExisteException;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationVideException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurEmailExisteException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
+use App\Domain\Exception\ChampInvalideException;
+use App\Domain\Exception\EmailInvalideException;
+use App\Domain\Exception\EmailVideException;
 use App\Infrastructure\Form\Utilisateur\UtilisateurType;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,9 +60,9 @@ class UtilisateurController extends AbstractController
                     return $this->redirectToRoute('utilisateur_modifier', [
                         'id' => $utilisateurId,
                     ]);
-                } catch (UtilisateurAbreviationExisteException|UtilisateurEmailExisteException $exception) {
+                } catch (UtilisateurAbreviationExisteException|UtilisateurAbreviationVideException|UtilisateurEmailExisteException|ChampInvalideException|EmailInvalideException|EmailVideException $exception) {
                     $this->addFlash('error', $exception->getMessage());
-                } catch (Exception $exception) {
+                } catch (Exception $e) {
                     $this->addFlash('error', 'Une erreur s\'est produite lors de la création de l\'utilisateur.');
                 }
             }
