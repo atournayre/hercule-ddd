@@ -112,4 +112,20 @@ class Utilisateur implements UserInterface
         $this->prenom = $prenom;
         return $this;
     }
+
+    public function prePersist()
+    {
+        $this->nom = strtoupper($this->nom);
+        $this->abreviation = strtoupper($this->abreviation);
+
+        return $this;
+    }
+
+    public function preUpdate()
+    {
+        $this->nom = strtoupper($this->nom);
+        $this->abreviation = strtoupper($this->abreviation);
+
+        return $this;
+    }
 }

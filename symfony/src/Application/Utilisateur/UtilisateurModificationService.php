@@ -48,6 +48,7 @@ class UtilisateurModificationService
             ->setPrenom($utilisateurFormVO->prenom)
             ->setAbreviation($utilisateurFormVO->abreviation)
             ->setEmail($utilisateurFormVO->email);
+        $utilisateur = $utilisateur->preUpdate();
 
         $utilisateur = $this->utilisateurRepository->sauvegarder($utilisateur);
 

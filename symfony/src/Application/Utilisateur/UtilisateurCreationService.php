@@ -44,6 +44,7 @@ class UtilisateurCreationService
         }
 
         $utilisateur = $this->utilisateurFactory->creer($utilisateurFormVO->email, $utilisateurFormVO->nom, $utilisateurFormVO->prenom, $utilisateurFormVO->abreviation);
+        $utilisateur = $utilisateur->prePersist();
 
         $utilisateur = $this->utilisateurRepository->sauvegarder($utilisateur);
 
