@@ -25,6 +25,11 @@ class Utilisateur implements UserInterface
     protected $resetToken;
     protected $abreviation;
 
+    /**
+     * @var bool
+     */
+    private $estValide = false;
+
     public function getId(): int
     {
         return $this->id;
@@ -121,35 +126,58 @@ class Utilisateur implements UserInterface
         return $this;
     }
 
+    /**
+     * @return $this
+     * @throws ChampInvalideException
+     * @throws EmailInvalideException
+     * @throws EmailVideException
+     */
     public function prePersist()
     {
         $this->nom = strtoupper($this->nom);
         $this->abreviation = strtoupper($this->abreviation);
+        $this->validation();
 
         return $this;
     }
 
+    /**
+     * @return $this
+     * @throws ChampInvalideException
+     * @throws EmailInvalideException
+     * @throws EmailVideException
+     */
     public function preUpdate()
     {
         $this->nom = strtoupper($this->nom);
         $this->abreviation = strtoupper($this->abreviation);
+        $this->validation();
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     * @throws ChampInvalideException
+     * @throws EmailInvalideException
+     * @throws EmailVideException
+     */
+    public function validation(): self
+    {
+        $this->estValide = $this->lEmailEstValide()
+            && $this->leNomEstValide()
+            && $this->lePrenomEstValide()
+            && $this->lAbreviationEstValide();
 
         return $this;
     }
 
     /**
      * @return bool
-     * @throws ChampInvalideException
-     * @throws EmailInvalideException
-     * @throws EmailVideException
      */
     public function estValide(): bool
     {
-        return $this->lEmailEstValide()
-            && $this->leNomEstValide()
-            && $this->lePrenomEstValide()
-            && $this->lAbreviationEstValide();
-
+        return $this->estValide;
     }
 
     /**

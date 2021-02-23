@@ -7,8 +7,6 @@ use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationExisteExceptio
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationVideException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurEmailExisteException;
 use App\Domain\Entity\Utilisateur\Repository\UtilisateurRepositoryInterface;
-use App\Domain\Exception\ChampInvalideException;
-use App\Domain\Exception\EmailInvalideException;
 use App\Domain\Exception\EmailVideException;
 use App\Domain\Factory\Utilisateur\UtilisateurFactory;
 
@@ -37,8 +35,6 @@ class UtilisateurCreationService
     /**
      * @param UtilisateurFormVO $utilisateurFormVO
      * @return int
-     * @throws ChampInvalideException
-     * @throws EmailInvalideException
      * @throws EmailVideException
      * @throws UtilisateurAbreviationExisteException
      * @throws UtilisateurEmailExisteException
@@ -57,11 +53,8 @@ class UtilisateurCreationService
         }
 
         $utilisateur = $this->utilisateurFactory->creer($utilisateurFormVO->email, $utilisateurFormVO->nom, $utilisateurFormVO->prenom, $utilisateurFormVO->abreviation);
-        $utilisateur = $utilisateur->prePersist();
 
-        if ($utilisateur->estValide()) {
-            $utilisateur = $this->utilisateurRepository->sauvegarder($utilisateur);
-        }
+        $utilisateur = $this->utilisateurRepository->sauvegarder($utilisateur);
 
         return $utilisateur->getId();
     }
