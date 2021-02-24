@@ -6,7 +6,7 @@ use App\Domain\Entity\Utilisateur\Utilisateur;
 
 class UtilisateurFactory
 {
-    public function creer(string $email, string $nom, string $prenom, string $abreviation): Utilisateur
+    public function creer(?string $email, ?string $nom, ?string $prenom, ?string $abreviation): Utilisateur
     {
         return (new Utilisateur())
             ->setEmail($email)

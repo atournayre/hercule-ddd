@@ -3,9 +3,11 @@
 namespace App\Infrastructure\Repository\Utilisateur;
 
 use App\Domain\DTO\Utilisateur\UtilisateurListeDTO;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationVideException;
 use App\Domain\Entity\Utilisateur\Repository\UtilisateurRepositoryInterface;
 use App\Domain\Entity\Utilisateur\Utilisateur;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
+use App\Domain\Exception\EmailVideException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\OptimisticLockException;
@@ -64,20 +66,28 @@ class UtilisateurRepositoryDoctrine extends ServiceEntityRepository implements U
     }
 
     /**
-     * @param string $email
+     * @param string|null $email
      * @return Utilisateur|null
+     * @throws EmailVideException
      */
-    public function findParEmail(string $email): ?Utilisateur
+    public function findParEmail(?string $email): ?Utilisateur
     {
+        if (!$email) {
+            throw new EmailVideException($email);
+        }
         return $this->findOneBy(['email' => $email]);
     }
 
     /**
-     * @param string $abreviation
+     * @param string|null $abreviation
      * @return Utilisateur|null
+     * @throws UtilisateurAbreviationVideException
      */
-    public function findParAbreviation(string $abreviation): ?Utilisateur
+    public function findParAbreviation(?string $abreviation): ?Utilisateur
     {
+        if (!$abreviation) {
+            throw new UtilisateurAbreviationVideException();
+        }
         return $this->findOneBy(['abreviation' => $abreviation]);
     }
 

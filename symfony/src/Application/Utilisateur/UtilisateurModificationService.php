@@ -4,9 +4,11 @@ namespace App\Application\Utilisateur;
 
 use App\Application\VO\Utilisateur\UtilisateurFormVO;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationExisteException;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationVideException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurEmailExisteException;
 use App\Domain\Entity\Utilisateur\Repository\UtilisateurRepositoryInterface;
 use App\Domain\Entity\Utilisateur\Utilisateur;
+use App\Domain\Exception\EmailVideException;
 
 class UtilisateurModificationService
 {
@@ -26,6 +28,8 @@ class UtilisateurModificationService
      * @return int
      * @throws UtilisateurAbreviationExisteException
      * @throws UtilisateurEmailExisteException
+     * @throws UtilisateurAbreviationVideException
+     * @throws EmailVideException
      */
     public function __invoke(Utilisateur $utilisateur, UtilisateurFormVO $utilisateurFormVO): int
     {

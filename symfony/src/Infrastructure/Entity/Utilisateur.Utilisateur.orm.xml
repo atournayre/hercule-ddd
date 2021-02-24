@@ -13,5 +13,10 @@
         <field name="nom" type="string" length="64" nullable="false" />
         <field name="prenom" type="string" length="64" nullable="false" />
         <field name="abreviation" type="string" length="3" nullable="false" />
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="prePersist"/>
+            <lifecycle-callback type="preUpdate" method="preUpdate"/>
+        </lifecycle-callbacks>
     </entity>
 </doctrine-mapping>

@@ -4,8 +4,10 @@ namespace App\Application\Utilisateur;
 
 use App\Application\VO\Utilisateur\UtilisateurFormVO;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationExisteException;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationVideException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurEmailExisteException;
 use App\Domain\Entity\Utilisateur\Repository\UtilisateurRepositoryInterface;
+use App\Domain\Exception\EmailVideException;
 use App\Domain\Factory\Utilisateur\UtilisateurFactory;
 
 class UtilisateurCreationService
@@ -18,28 +20,35 @@ class UtilisateurCreationService
      * @var UtilisateurRepositoryInterface
      */
     private $utilisateurRepository;
+    /**
+     * @var UtilisateurService
+     */
+    private $utilisateurService;
 
-    public function __construct(UtilisateurFactory $utilisateurFactory, UtilisateurRepositoryInterface $utilisateurRepository)
+    public function __construct(UtilisateurFactory $utilisateurFactory, UtilisateurRepositoryInterface $utilisateurRepository, UtilisateurService $utilisateurService)
     {
         $this->utilisateurFactory = $utilisateurFactory;
         $this->utilisateurRepository = $utilisateurRepository;
+        $this->utilisateurService = $utilisateurService;
     }
 
     /**
      * @param UtilisateurFormVO $utilisateurFormVO
      * @return int
+     * @throws EmailVideException
      * @throws UtilisateurAbreviationExisteException
      * @throws UtilisateurEmailExisteException
+     * @throws UtilisateurAbreviationVideException
      */
     public function __invoke(UtilisateurFormVO $utilisateurFormVO): int
     {
-        $utilisateur = $this->utilisateurRepository->findParEmail($utilisateurFormVO->email);
-        if ($utilisateur) {
+        $utilisateurParEmail = $this->utilisateurService->findParEmail($utilisateurFormVO->email);
+        if ($utilisateurParEmail) {
             throw new UtilisateurEmailExisteException($utilisateurFormVO->email);
         }
 
-        $utilisateur = $this->utilisateurRepository->findParAbreviation($utilisateurFormVO->abreviation);
-        if ($utilisateur) {
+        $utilisateurParAbreviation = $this->utilisateurService->findParAbreviation($utilisateurFormVO->abreviation);
+        if ($utilisateurParAbreviation) {
             throw new UtilisateurAbreviationExisteException($utilisateurFormVO->abreviation);
         }
 
