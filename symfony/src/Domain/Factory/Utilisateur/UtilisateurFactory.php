@@ -21,6 +21,6 @@ class UtilisateurFactory
             ->setPrenom($prenom)
             ->setAbreviation($abreviation)
             ->setPassword(self::MOT_DE_PASSE_INITIAL)
-            ->setRoles(['ROLE_USER']);
+            ->setRoles([Utilisateur::ROLE_PAR_DEFAUT]);
     }
 }
