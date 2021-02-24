@@ -2,11 +2,18 @@
 
 namespace App\Domain\Entity\Utilisateur;
 
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationInvalideException;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurEmailInvalideException;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurNomInvalideException;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurPrenomInvalideException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class Utilisateur implements UserInterface
 {
     const ROLE_PAR_DEFAUT = 'ROLE_USER';
+
+    const EMAIL_PATTERN = '/^.+\@\S+\.\S+$/';
+    const ABREVIATION_VALIDATION_PATTERN = '/^[A-Z]{3}$/';
 
     protected $email;
     protected $password;
@@ -99,5 +106,55 @@ class Utilisateur implements UserInterface
     {
         $this->abreviation = $abreviation;
         return $this;
+    }
+
+    public function isEmailValide(): bool
+    {
+        if (empty($this->email) || !preg_match(self::EMAIL_PATTERN, $this->email)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function isNomValide(): bool
+    {
+        return !empty(trim($this->nom));
+    }
+
+    public function isPrenomValide(): bool
+    {
+        return !empty(trim($this->prenom));
+    }
+
+    public function isAbreviationValide(): bool
+    {
+        if (empty($this->abreviation) || !preg_match(self::ABREVIATION_VALIDATION_PATTERN, $this->abreviation)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     * @throws UtilisateurEmailInvalideException
+     * @throws UtilisateurNomInvalideException
+     * @throws UtilisateurPrenomInvalideException
+     * @throws UtilisateurAbreviationInvalideException
+     */
+    public function isValide(): bool
+    {
+        if (!$this->isEmailValide()) {
+            throw new UtilisateurEmailInvalideException();
+        }
+        if (!$this->isNomValide()) {
+            throw new UtilisateurNomInvalideException();
+        }
+        if (!$this->isPrenomValide()) {
+            throw new UtilisateurPrenomInvalideException();
+        }
+        if (!$this->isAbreviationValide()) {
+            throw new UtilisateurAbreviationInvalideException();
+        }
+        return true;
     }
 }
