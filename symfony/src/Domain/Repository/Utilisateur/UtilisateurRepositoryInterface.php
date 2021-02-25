@@ -2,6 +2,7 @@
 
 namespace App\Domain\Repository\Utilisateur;
 
+use App\Application\Exception\AbreviationInvalideException;
 use App\Application\Exception\EmailInvalideException;
 use App\Domain\Entity\Utilisateur\Utilisateur;
 
@@ -13,4 +14,11 @@ interface UtilisateurRepositoryInterface
      * @throws EmailInvalideException
      */
     public function findParEmail(?string $email): ?Utilisateur;
+
+    /**
+     * @param string|null $abreviation
+     * @return Utilisateur|null
+     * @throws AbreviationInvalideException
+     */
+    public function findParAbreviation(?string $abreviation): ?Utilisateur;
 }
