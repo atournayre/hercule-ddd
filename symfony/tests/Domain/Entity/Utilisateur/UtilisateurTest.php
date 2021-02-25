@@ -2,10 +2,7 @@
 
 namespace App\Tests\Domain\Entity\Utilisateur;
 
-use App\Domain\Entity\Utilisateur\Exception\UtilisateurAbreviationInvalideException;
-use App\Domain\Entity\Utilisateur\Exception\UtilisateurEmailInvalideException;
-use App\Domain\Entity\Utilisateur\Exception\UtilisateurNomInvalideException;
-use App\Domain\Entity\Utilisateur\Exception\UtilisateurPrenomInvalideException;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
 use App\Domain\Factory\Utilisateur\UtilisateurFactory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -113,28 +110,28 @@ class UtilisateurTest extends KernelTestCase
 
     public function testLUtilisateurEstInvalideAvecEmailInvalide()
     {
-        $this->expectException(UtilisateurEmailInvalideException::class);
+        $this->expectException(UtilisateurValidationException::class);
         $utilisateur = $this->utilisateurFactory->creerUnUtilisateur();
         $utilisateur->isValide();
     }
 
     public function testLUtilisateurEstInvalideAvecNomInvalide()
     {
-        $this->expectException(UtilisateurNomInvalideException::class);
+        $this->expectException(UtilisateurValidationException::class);
         $utilisateur = $this->utilisateurFactory->creerUnUtilisateur('a@a.com');
         $utilisateur->isValide();
     }
 
     public function testLUtilisateurEstInvalideAvecPrenomInvalide()
     {
-        $this->expectException(UtilisateurPrenomInvalideException::class);
+        $this->expectException(UtilisateurValidationException::class);
         $utilisateur = $this->utilisateurFactory->creerUnUtilisateur('a@a.com', 'DUPONT');
         $utilisateur->isValide();
     }
 
     public function testLUtilisateurEstInvalideAvecAbreviationInvalide()
     {
-        $this->expectException(UtilisateurAbreviationInvalideException::class);
+        $this->expectException(UtilisateurValidationException::class);
         $utilisateur = $this->utilisateurFactory->creerUnUtilisateur('a@a.com', 'DUPONT', 'Marie');
         $utilisateur->isValide();
     }
