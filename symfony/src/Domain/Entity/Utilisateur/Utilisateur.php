@@ -17,12 +17,18 @@ class Utilisateur implements UserInterface
     const PRENOM_INVALIDE_EXCEPTION_MESSAGE = 'Le prénom de l\'utilisateur est invalide.';
     const ABREVIATION_INVALIDE_EXCEPTION_MESSAGE = 'L\'abréviation de l\'utilisateur est invalide.';
 
+    protected $id;
     protected $email;
     protected $password;
     protected $roles = [];
     protected $nom;
     protected $prenom;
     protected $abreviation;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     public function getRoles(): array
     {
