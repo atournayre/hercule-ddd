@@ -11,63 +11,60 @@ use PHPUnit\Framework\TestCase;
 
 class UtilisateurServiceTest extends TestCase
 {
+    /**
+     * @var UtilisateurService
+     */
+    private $utilisateurService;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->utilisateurService = new UtilisateurService(new UtilisateurRepositoryInMemory());
+    }
+
     public function testEmailUtilisateurUnique()
     {
-        $utilisateurRepository = new UtilisateurRepositoryInMemory();
-        $utilisateurService = new UtilisateurService($utilisateurRepository);
-
-        $lEmailEstUnique = $utilisateurService->lEmailEstUnique('email@est.unique');
+        $lEmailEstUnique = $this->utilisateurService->lEmailEstUnique('email@est.unique');
         $this->assertTrue($lEmailEstUnique);
     }
 
     public function testEmailUtilisateurExisteDeja()
     {
-        $utilisateurRepository = new UtilisateurRepositoryInMemory();
-        $utilisateurService = new UtilisateurService($utilisateurRepository);
         UtilisateurRepositoryInMemory::$utilisateurs = [
             UtilisateurInMemoryPierre::ID => new UtilisateurInMemoryPierre(),
         ];
 
-        $lEmailEstUnique = $utilisateurService->lEmailEstUnique(UtilisateurInMemoryPierre::EMAIL);
+        $lEmailEstUnique = $this->utilisateurService->lEmailEstUnique(UtilisateurInMemoryPierre::EMAIL);
         $this->assertFalse($lEmailEstUnique);
     }
 
     public function testEmailUniqueAvecEmailInvalide()
     {
-        $utilisateurRepository = new UtilisateurRepositoryInMemory();
-        $utilisateurService = new UtilisateurService($utilisateurRepository);
-
         $this->expectException(EmailInvalideException::class);
-        $utilisateurService->lEmailEstUnique(null);
+        $this->utilisateurService->lEmailEstUnique(null);
     }
 
     public function testAbreviationUtilisateurUnique()
     {
-        $utilisateurRepository = new UtilisateurRepositoryInMemory();
-        $utilisateurService = new UtilisateurService($utilisateurRepository);
-
-        $lAbreviationEstUnique = $utilisateurService->lAbreviationEstUnique('ABU');
+        $lAbreviationEstUnique = $this->utilisateurService->lAbreviationEstUnique('ABU');
         $this->assertTrue($lAbreviationEstUnique);
     }
 
     public function testAbreviationUtilisateurAbreviationDeja()
     {
         $utilisateurRepository = new UtilisateurRepositoryInMemory();
-        $utilisateurService = new UtilisateurService($utilisateurRepository);
+        $this->utilisateurService = new UtilisateurService($utilisateurRepository);
         UtilisateurRepositoryInMemory::$utilisateurs = [
             UtilisateurInMemoryPierre::ID => new UtilisateurInMemoryPierre(),
         ];
 
-        $lAbreviationEstUnique = $utilisateurService->lAbreviationEstUnique(UtilisateurInMemoryPierre::ABREVIATION);
+        $lAbreviationEstUnique = $this->utilisateurService->lAbreviationEstUnique(UtilisateurInMemoryPierre::ABREVIATION);
         $this->assertFalse($lAbreviationEstUnique);
     }
 
     public function testAbreviationUniqueAvecAbreviationInvalide()
     {
-        $utilisateurRepository = new UtilisateurRepositoryInMemory();
-        $utilisateurService = new UtilisateurService($utilisateurRepository);
-
         $this->expectException(AbreviationInvalideException::class);
-        $utilisateurService->lAbreviationEstUnique(null);
+        $this->utilisateurService->lAbreviationEstUnique(null);
     }
 }
