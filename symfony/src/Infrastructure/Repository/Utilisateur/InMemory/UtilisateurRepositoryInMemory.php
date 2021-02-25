@@ -53,4 +53,12 @@ class UtilisateurRepositoryInMemory implements UtilisateurRepositoryInterface
         }
         return null;
     }
+
+    public function sauvegarder(Utilisateur $utilisateur): Utilisateur
+    {
+        $utilisateurs = self::$utilisateurs;
+        array_push($utilisateurs, $utilisateur);
+        $dernierIdInsere = array_keys($utilisateurs)[count($utilisateurs)-1];
+        return $utilisateurs[$dernierIdInsere];
+    }
 }

@@ -21,4 +21,6 @@ interface UtilisateurRepositoryInterface
      * @throws AbreviationInvalideException
      */
     public function findParAbreviation(?string $abreviation): ?Utilisateur;
+
+    public function sauvegarder(Utilisateur $utilisateur): Utilisateur;
 }
