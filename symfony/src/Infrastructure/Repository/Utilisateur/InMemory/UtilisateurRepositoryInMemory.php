@@ -4,6 +4,8 @@ namespace App\Infrastructure\Repository\Utilisateur\InMemory;
 
 use App\Application\Exception\AbreviationInvalideException;
 use App\Application\Exception\EmailInvalideException;
+use App\Domain\DTO\Utilisateur\UtilisateurListeDTO;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use App\Domain\Entity\Utilisateur\Utilisateur;
 use App\Domain\Repository\Utilisateur\UtilisateurRepositoryInterface;
 
@@ -60,5 +62,23 @@ class UtilisateurRepositoryInMemory implements UtilisateurRepositoryInterface
         array_push($utilisateurs, $utilisateur);
         $dernierIdInsere = array_keys($utilisateurs)[count($utilisateurs)-1];
         return $utilisateurs[$dernierIdInsere];
+    }
+
+    public function liste(): array
+    {
+        if (count(self::$utilisateurs) === 0) {
+            throw new UtilisateurNonTrouveException();
+        }
+
+        return array_map(
+            function (Utilisateur $utilisateur) {
+                $utilisateurListeDTO = new UtilisateurListeDTO();
+                $utilisateurListeDTO->id = $utilisateur->getId();
+                $utilisateurListeDTO->nomComplet = sprintf('%s %s', $utilisateur->getPrenom(), $utilisateur->getNom());
+                $utilisateurListeDTO->email = $utilisateur->getEmail();
+                return $utilisateurListeDTO;
+            },
+            self::$utilisateurs
+        );
     }
 }

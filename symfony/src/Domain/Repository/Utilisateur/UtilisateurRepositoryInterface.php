@@ -4,6 +4,8 @@ namespace App\Domain\Repository\Utilisateur;
 
 use App\Application\Exception\AbreviationInvalideException;
 use App\Application\Exception\EmailInvalideException;
+use App\Domain\DTO\Utilisateur\UtilisateurListeDTO;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use App\Domain\Entity\Utilisateur\Utilisateur;
 
 interface UtilisateurRepositoryInterface
@@ -23,4 +25,10 @@ interface UtilisateurRepositoryInterface
     public function findParAbreviation(?string $abreviation): ?Utilisateur;
 
     public function sauvegarder(Utilisateur $utilisateur): Utilisateur;
+
+    /**
+     * @return UtilisateurListeDTO[]|array
+     * @throws UtilisateurNonTrouveException
+     */
+    public function liste(): array;
 }
