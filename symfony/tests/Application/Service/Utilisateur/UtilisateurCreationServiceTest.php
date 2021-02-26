@@ -40,7 +40,7 @@ class UtilisateurCreationServiceTest extends TestCase
         $utilisateurVO->abreviation = UtilisateurInMemoryPierre::ABREVIATION;
         $utilisateurVO->nom = UtilisateurInMemoryPierre::NOM;
         $utilisateurVO->prenom = UtilisateurInMemoryPierre::PRENOM;
-        $utilisateur = $this->utilisateurCreationService->creer($utilisateurVO);
+        $utilisateur = ($this->utilisateurCreationService)($utilisateurVO);
         $this->assertNotNull($utilisateur);
     }
 
@@ -52,7 +52,7 @@ class UtilisateurCreationServiceTest extends TestCase
         ];
         $utilisateurVO = new UtilisateurVO();
         $utilisateurVO->email = UtilisateurInMemoryPierre::EMAIL;
-        $this->utilisateurCreationService->creer($utilisateurVO);
+        ($this->utilisateurCreationService)($utilisateurVO);
     }
 
     public function testErreurAbreviationUniqueLorsDeLaCreation()
@@ -64,7 +64,7 @@ class UtilisateurCreationServiceTest extends TestCase
         $utilisateurVO = new UtilisateurVO();
         $utilisateurVO->email = 'email@est.unique';
         $utilisateurVO->abreviation = UtilisateurInMemoryPierre::ABREVIATION;
-        $this->utilisateurCreationService->creer($utilisateurVO);
+        ($this->utilisateurCreationService)($utilisateurVO);
     }
 
     public function testLUtilisateurEstInvalide()
@@ -74,7 +74,7 @@ class UtilisateurCreationServiceTest extends TestCase
         $utilisateurVO->email = UtilisateurInMemoryPierre::EMAIL;
         $utilisateurVO->abreviation = UtilisateurInMemoryPierre::ABREVIATION;
         $utilisateurVO->nom = null;
-        $this->utilisateurCreationService->creer($utilisateurVO);
+        ($this->utilisateurCreationService)($utilisateurVO);
     }
 
     public function testlUtilisateurEstSauvegarde()
@@ -87,7 +87,7 @@ class UtilisateurCreationServiceTest extends TestCase
         $utilisateurVO->abreviation = 'EEU';
         $utilisateurVO->nom = 'nom';
         $utilisateurVO->prenom = 'prenom';
-        $utilisateur = $this->utilisateurCreationService->creer($utilisateurVO);
+        $utilisateur = ($this->utilisateurCreationService)($utilisateurVO);
         $this->assertEquals($utilisateur->getAbreviation(), 'EEU');
     }
 }

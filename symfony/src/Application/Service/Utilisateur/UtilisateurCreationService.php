@@ -47,7 +47,7 @@ class UtilisateurCreationService
      * @throws AbreviationInvalideException
      * @throws UtilisateurValidationException
      */
-    public function creer(UtilisateurVO $utilisateurVO): Utilisateur
+    public function __invoke(UtilisateurVO $utilisateurVO): Utilisateur
     {
         $lEmailEstUnique = $this->utilisateurService->lEmailEstUnique($utilisateurVO->email);
         if (!$lEmailEstUnique) {
