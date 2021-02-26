@@ -129,12 +129,22 @@ class Utilisateur implements UserInterface
 
     public function isNomValide(): bool
     {
-        return !empty(trim($this->nom));
+        return !$this->isNomInvalide();
+    }
+
+    public function isNomInvalide(): bool
+    {
+        return empty(trim($this->nom));
     }
 
     public function isPrenomValide(): bool
     {
-        return !empty(trim($this->prenom));
+        return !$this->isPrenomInvalide();
+    }
+
+    public function isPrenomInvalide(): bool
+    {
+        return empty(trim($this->prenom));
     }
 
     public function isAbreviationInvalide(): bool
