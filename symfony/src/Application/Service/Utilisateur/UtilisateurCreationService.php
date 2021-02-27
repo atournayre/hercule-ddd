@@ -55,7 +55,7 @@ class UtilisateurCreationService
         }
         $lAbreviationEstUnique = $this->utilisateurService->lAbreviationEstUnique($utilisateurVO->abreviation);
         if (!$lAbreviationEstUnique) {
-            throw new AbreviationNonUniqueException();
+            throw new AbreviationNonUniqueException($utilisateurVO->abreviation);
         }
         $utilisateur = $this->utilisateurFactory->creerUnUtilisateur(
             $utilisateurVO->email,
