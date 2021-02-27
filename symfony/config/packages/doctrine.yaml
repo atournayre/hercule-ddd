@@ -19,7 +19,7 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Infrastructure/Entity'
                 prefix: 'App\Domain\Entity'
                 alias: App
-#        dql:
+        dql:
 #            datetime_functions:
 #                addtime: DoctrineExtensions\Query\Mysql\AddTime
 #                convert_tz: DoctrineExtensions\Query\Mysql\ConvertTz
@@ -87,7 +87,7 @@ doctrine:
 #                tan: DoctrineExtensions\Query\Mysql\Tan
 #                variance: DoctrineExtensions\Query\Mysql\Variance
 #
-#            string_functions:
+            string_functions:
 #                aes_decrypt: DoctrineExtensions\Query\Mysql\AesDecrypt
 #                aes_encrypt: DoctrineExtensions\Query\Mysql\AesEncrypt
 #                any_value: DoctrineExtensions\Query\Mysql\AnyValue
@@ -96,7 +96,7 @@ doctrine:
 #                cast: DoctrineExtensions\Query\Mysql\Cast
 #                char_length: DoctrineExtensions\Query\Mysql\CharLength
 #                collate: DoctrineExtensions\Query\Mysql\Collate
-#                concat_ws: DoctrineExtensions\Query\Mysql\ConcatWs
+                concat_ws: DoctrineExtensions\Query\Mysql\ConcatWs
 #                countif: DoctrineExtensions\Query\Mysql\CountIf
 #                crc32: DoctrineExtensions\Query\Mysql\Crc32
 #                degrees: DoctrineExtensions\Query\Mysql\Degrees
