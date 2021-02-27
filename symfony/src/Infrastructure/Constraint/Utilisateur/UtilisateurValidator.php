@@ -51,5 +51,13 @@ class UtilisateurValidator extends ConstraintValidator
 //                ->atPath()
                 ->addViolation();
         }
+
+        if ($value->isAbreviationInvalide()) {
+            $this->context->buildViolation($constraint->abreviationMessage)
+                ->setCode(Utilisateur::INVALID_ABREVIATION_CODE_ERROR)
+                // Todo definir le path
+//                ->atPath()
+                ->addViolation();
+        }
     }
 }
