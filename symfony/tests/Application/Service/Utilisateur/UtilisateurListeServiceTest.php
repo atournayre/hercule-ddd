@@ -2,6 +2,7 @@
 
 namespace App\Tests\Application\Service\Utilisateur;
 
+use App\Application\Service\Utilisateur\UtilisateurListeService;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use App\Infrastructure\Repository\Utilisateur\InMemory\UtilisateurInMemoryPierre;
 use App\Infrastructure\Repository\Utilisateur\InMemory\UtilisateurRepositoryInMemory;
@@ -12,12 +13,12 @@ class UtilisateurListeServiceTest extends TestCase
     /**
      * @var UtilisateurRepositoryInMemory
      */
-    private $utilisateurRepository;
+    private $utilisateurListeService;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->utilisateurRepository = new UtilisateurRepositoryInMemory();
+        $this->utilisateurListeService = new UtilisateurListeService(new UtilisateurRepositoryInMemory());
     }
 
     public function testListe()
@@ -26,7 +27,7 @@ class UtilisateurListeServiceTest extends TestCase
             UtilisateurInMemoryPierre::ID => new UtilisateurInMemoryPierre(),
         ];
 
-        $utilisateurListeDTO = $this->utilisateurRepository->liste();
+        $utilisateurListeDTO = $this->utilisateurListeService->liste();
         $premierUtilisateur = current($utilisateurListeDTO);
         $this->assertNotNull($premierUtilisateur->email);
     }
@@ -34,6 +35,6 @@ class UtilisateurListeServiceTest extends TestCase
     public function testListeVide()
     {
         $this->expectException(UtilisateurNonTrouveException::class);
-        $this->utilisateurRepository->liste();
+        $this->utilisateurListeService->liste();
     }
 }
