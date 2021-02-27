@@ -41,17 +41,17 @@ class UtilisateurCreationService
     /**
      * @param UtilisateurVO $utilisateurVO
      * @return Utilisateur
+     * @throws AbreviationInvalideException
      * @throws AbreviationNonUniqueException
      * @throws EmailInvalideException
      * @throws EmailNonUniqueException
-     * @throws AbreviationInvalideException
      * @throws UtilisateurValidationException
      */
     public function __invoke(UtilisateurVO $utilisateurVO): Utilisateur
     {
         $lEmailEstUnique = $this->utilisateurService->lEmailEstUnique($utilisateurVO->email);
         if (!$lEmailEstUnique) {
-            throw new EmailNonUniqueException();
+            throw new EmailNonUniqueException($utilisateurVO->email);
         }
         $lAbreviationEstUnique = $this->utilisateurService->lAbreviationEstUnique($utilisateurVO->abreviation);
         if (!$lAbreviationEstUnique) {
