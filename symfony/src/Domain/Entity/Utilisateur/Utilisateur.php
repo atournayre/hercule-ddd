@@ -3,9 +3,10 @@
 namespace App\Domain\Entity\Utilisateur;
 
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
+use App\Domain\Interfaces\Utilisateur\UtilisateurValidationInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Utilisateur implements UserInterface
+class Utilisateur implements UserInterface, UtilisateurValidationInterface
 {
     const ROLE_PAR_DEFAUT = 'ROLE_USER';
 
