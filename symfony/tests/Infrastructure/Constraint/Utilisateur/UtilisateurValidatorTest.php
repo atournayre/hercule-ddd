@@ -22,17 +22,6 @@ class UtilisateurValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testUtilisationAvecObjetNonUtilisateurEstInvalide()
-    {
-        $this->expectException(ConstraintDefinitionException::class);
-
-        $objet = new \stdClass();
-
-        $this->setObject($objet);
-
-        $this->validator->validate($objet, new Utilisateur());
-    }
-
     public function testEmailNullEstInvalide()
     {
         $utilisateur = new UtilisateurInMemoryPierre();
@@ -46,6 +35,7 @@ class UtilisateurValidatorTest extends ConstraintValidatorTestCase
 
         $this->buildViolation($constraint->emailMessage)
             ->setCode(Utilisateur::INVALID_EMAIL_CODE_ERROR)
+            ->atPath(sprintf('property.path.%s', $constraint->emailPath))
             ->assertRaised();
     }
 
@@ -62,6 +52,7 @@ class UtilisateurValidatorTest extends ConstraintValidatorTestCase
 
         $this->buildViolation($constraint->emailMessage)
             ->setCode(Utilisateur::INVALID_EMAIL_CODE_ERROR)
+            ->atPath(sprintf('property.path.%s', $constraint->emailPath))
             ->assertRaised();
     }
 
@@ -78,6 +69,7 @@ class UtilisateurValidatorTest extends ConstraintValidatorTestCase
 
         $this->buildViolation($constraint->emailMessage)
             ->setCode(Utilisateur::INVALID_EMAIL_CODE_ERROR)
+            ->atPath(sprintf('property.path.%s', $constraint->emailPath))
             ->assertRaised();
     }
 
@@ -94,8 +86,7 @@ class UtilisateurValidatorTest extends ConstraintValidatorTestCase
 
         $this->buildViolation($constraint->emailMessage)
             ->setCode(Utilisateur::INVALID_EMAIL_CODE_ERROR)
-            // Todo definir le path
-//                ->atPath()
+            ->atPath(sprintf('property.path.%s', $constraint->emailPath))
             ->assertRaised();
     }
 
@@ -126,6 +117,7 @@ class UtilisateurValidatorTest extends ConstraintValidatorTestCase
 
         $this->buildViolation($constraint->nomMessage)
             ->setCode(Utilisateur::INVALID_NOM_CODE_ERROR)
+            ->atPath(sprintf('property.path.%s', $constraint->nomPath))
             ->assertRaised();
     }
 
@@ -142,6 +134,7 @@ class UtilisateurValidatorTest extends ConstraintValidatorTestCase
 
         $this->buildViolation($constraint->prenomMessage)
             ->setCode(Utilisateur::INVALID_PRENOM_CODE_ERROR)
+            ->atPath(sprintf('property.path.%s', $constraint->prenomPath))
             ->assertRaised();
     }
 
@@ -158,6 +151,7 @@ class UtilisateurValidatorTest extends ConstraintValidatorTestCase
 
         $this->buildViolation($constraint->abreviationMessage)
             ->setCode(Utilisateur::INVALID_ABREVIATION_CODE_ERROR)
+            ->atPath(sprintf('property.path.%s', $constraint->abreviationPath))
             ->assertRaised();
     }
 }

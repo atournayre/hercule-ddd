@@ -17,9 +17,15 @@ class Utilisateur extends Constraint
 
     public $utilisateur;
 
-    public $objectMessage = 'La vérification de validité ne peut être effectuée que sur un utilisateur.';
+    public $emailPath = 'email';
     public $emailMessage = 'L\'email de l\'utilisateur est invalide.';
+
+    public $nomPath = 'nom';
     public $nomMessage = 'Le nom de l\'utilisateur est invalide.';
+
+    public $prenomPath = 'prenom';
     public $prenomMessage = 'Le prénom de l\'utilisateur est invalide.';
+
+    public $abreviationPath = 'abreviation';
     public $abreviationMessage = 'L\'abréviation de l\'utilisateur est invalide.';
 }

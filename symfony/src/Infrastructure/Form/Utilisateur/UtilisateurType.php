@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Form\Utilisateur;
 
 use App\Application\VO\Utilisateur\UtilisateurVO;
+use App\Infrastructure\Constraint\Utilisateur\Utilisateur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -26,6 +27,9 @@ class UtilisateurType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => UtilisateurVO::class,
+            'constraints' => [
+                new Utilisateur(),
+            ]
         ]);
     }
 }
