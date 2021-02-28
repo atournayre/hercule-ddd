@@ -4,6 +4,8 @@ namespace App\Application\Service\Utilisateur;
 
 use App\Application\Exception\AbreviationInvalideException;
 use App\Application\Exception\EmailInvalideException;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
+use App\Domain\Entity\Utilisateur\Utilisateur;
 use App\Domain\Repository\Utilisateur\UtilisateurRepositoryInterface;
 
 class UtilisateurService
@@ -38,5 +40,15 @@ class UtilisateurService
     {
         $utilisateur = $this->utilisateurRepository->findParAbreviation($abreviation);
         return is_null($utilisateur);
+    }
+
+    /**
+     * @param int $id
+     * @return Utilisateur
+     * @throws UtilisateurNonTrouveException
+     */
+    public function findParId(int $id): Utilisateur
+    {
+        return $this->utilisateurRepository->findParId($id);
     }
 }

@@ -31,4 +31,11 @@ interface UtilisateurRepositoryInterface
      * @throws UtilisateurNonTrouveException
      */
     public function liste(): array;
+
+    /**
+     * @param int $id
+     * @return Utilisateur
+     * @throws UtilisateurNonTrouveException
+     */
+    public function findParId(int $id): Utilisateur;
 }
