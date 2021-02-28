@@ -10,6 +10,7 @@ use App\Application\Service\Utilisateur\UtilisateurCreationService;
 use App\Application\Service\Utilisateur\UtilisateurListeService;
 use App\Application\Service\Utilisateur\UtilisateurModificationService;
 use App\Application\Service\Utilisateur\UtilisateurService;
+use App\Application\VO\Utilisateur\UtilisateurModificationVO;
 use App\Application\VO\Utilisateur\UtilisateurVO;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
@@ -26,6 +27,11 @@ class UtilisateurController extends AbstractController
     const CREER_FORMULAIRE_INVALIDE_MESSAGE = 'Le formulaire n\'est pas valide.';
     const CREER_FORMULAIRE_VALIDE_MESSAGE = 'L\'utilisateur a été créé.';
     const CREER_EXCEPTION_MESSAGE = 'Une erreur s\'est produite lors de la création de l\'utilisateur.';
+
+    const MODIFIER_FORMULAIRE_INVALIDE_MESSAGE = 'Le formulaire n\'est pas valide.';
+    const MODIFIER_FORMULAIRE_VALIDE_MESSAGE = 'L\'utilisateur a été modifié.';
+    const MODIFIER_EXCEPTION_MESSAGE = 'Une erreur s\'est produite lors de la modification de l\'utilisateur.';
+    const MODIFIER_UTILISATEUR_NON_TROUVE_EXCEPTION_MESSAGE = 'Une erreur s\'est produite lors de la récupération de l\'utilisateur.';
 
     public function liste(UtilisateurListeService $utilisateurListe): Response
     {
@@ -83,6 +89,48 @@ class UtilisateurController extends AbstractController
         int $id
     ): Response
     {
-        exit('Not implemented');
+        try {
+            $utilisateur = $utilisateurService->findParId($id);
+        } catch (UtilisateurNonTrouveException $exception) {
+            return $this->render('_partial/_error.html.twig', [
+                'messageErreur' => $exception->getMessage(),
+            ]);
+        } catch (Exception $exception) {
+            return $this->render('_partial/_error.html.twig', [
+                'messageErreur' => self::MODIFIER_UTILISATEUR_NON_TROUVE_EXCEPTION_MESSAGE,
+            ]);
+        }
+
+        $utilisateurFormVO = new UtilisateurModificationVO($utilisateur);
+
+        $form = $this->createForm(UtilisateurType::class, $utilisateurFormVO);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                $this->addFlash('error', self::MODIFIER_FORMULAIRE_INVALIDE_MESSAGE);
+            }
+            if ($form->isValid()) {
+                try {
+                    $utilisateur = $utilisateurModificationService->modifier($utilisateur, $utilisateurFormVO);
+
+                    $this->addFlash('success', self::MODIFIER_FORMULAIRE_VALIDE_MESSAGE);
+
+                    return $this->redirectToRoute('utilisateur_modifier', [
+                        'id' => $utilisateur->getId(),
+                    ]);
+                } catch (AbreviationNonUniqueException|EmailNonUniqueException|AbreviationInvalideException|EmailInvalideException|UtilisateurValidationException $exception) {
+                    $this->addFlash('error', $exception->getMessage());
+                } catch (Exception $exception) {
+                    $this->addFlash('error', self::MODIFIER_EXCEPTION_MESSAGE);
+                }
+            }
+        }
+
+
+        return $this->render('utilisateur/formulaire.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
