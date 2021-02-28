@@ -7,7 +7,7 @@ use App\Domain\Interfaces\Utilisateur\UtilisateurValidationInterface;
 class UtilisateurVO implements UtilisateurValidationInterface
 {
     const EMAIL_PATTERN = '/^.+\@\S+\.\S+$/';
-    const ABREVIATION_VALIDATION_PATTERN = '/^[A-Z]{3}$/';
+    const ABREVIATION_VALIDATION_PATTERN = '/^[A-ZA-Z0-9]{3}$/';
 
     public $email;
     public $nom;
