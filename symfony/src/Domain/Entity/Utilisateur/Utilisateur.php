@@ -190,30 +190,10 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface, Vali
 
     /**
      * @return $this
-     * @throws ChampInvalideException
-     * @throws EmailInvalideException
-     * @throws EmailVideException
      */
-    public function prePersist()
+    public function preFlush(): self
     {
-//        $this->nom = strtoupper($this->nom);
-//        $this->abreviation = strtoupper($this->abreviation);
-//        $this->validation();
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     * @throws ChampInvalideException
-     * @throws EmailInvalideException
-     * @throws EmailVideException
-     */
-    public function preUpdate()
-    {
-//        $this->nom = strtoupper($this->nom);
-//        $this->abreviation = strtoupper($this->abreviation);
-//        $this->validation();
+        $this->nom = strtoupper($this->nom);
 
         return $this;
     }
