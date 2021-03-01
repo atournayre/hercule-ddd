@@ -16,6 +16,7 @@ use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
 use App\Infrastructure\Form\Utilisateur\UtilisateurType;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,6 +34,21 @@ class UtilisateurController extends AbstractController
     const MODIFIER_EXCEPTION_MESSAGE = 'Une erreur s\'est produite lors de la modification de l\'utilisateur.';
     const MODIFIER_UTILISATEUR_NON_TROUVE_EXCEPTION_MESSAGE = 'Une erreur s\'est produite lors de la récupération de l\'utilisateur.';
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @param UtilisateurListeService $utilisateurListe
+     * @return Response
+     * @deprecated la liste est dépréciée
+     */
     public function liste(UtilisateurListeService $utilisateurListe): Response
     {
         try {
@@ -41,6 +57,9 @@ class UtilisateurController extends AbstractController
             $this->addFlash('error', $exception->getMessage());
         } catch (Exception $exception) {
             $this->addFlash('error', self::LISTE_EXCEPTION_MESSAGE);
+            $this->logger->error((string) $exception, [
+                'controllerAction' => __METHOD__,
+            ]);
         }
 
         return $this->render('utilisateur/liste.html.twig', [
@@ -71,8 +90,11 @@ class UtilisateurController extends AbstractController
                     ]);
                 } catch (AbreviationInvalideException|AbreviationNonUniqueException|EmailInvalideException|EmailNonUniqueException|UtilisateurValidationException $exception) {
                     $this->addFlash('error', $exception->getMessage());
-                } catch (Exception $e) {
+                } catch (Exception $exception) {
                     $this->addFlash('error', self::CREER_EXCEPTION_MESSAGE);
+                    $this->logger->error((string) $exception, [
+                        'controllerAction' => __METHOD__,
+                    ]);
                 }
             }
         }
@@ -96,6 +118,9 @@ class UtilisateurController extends AbstractController
                 'messageErreur' => $exception->getMessage(),
             ]);
         } catch (Exception $exception) {
+            $this->logger->error((string) $exception, [
+                'controllerAction' => __METHOD__,
+            ]);
             return $this->render('_partial/_error.html.twig', [
                 'messageErreur' => self::MODIFIER_UTILISATEUR_NON_TROUVE_EXCEPTION_MESSAGE,
             ]);
@@ -123,6 +148,9 @@ class UtilisateurController extends AbstractController
                 } catch (AbreviationNonUniqueException|EmailNonUniqueException|AbreviationInvalideException|EmailInvalideException|UtilisateurValidationException $exception) {
                     $this->addFlash('error', $exception->getMessage());
                 } catch (Exception $exception) {
+                    $this->logger->error((string) $exception, [
+                        'controllerAction' => __METHOD__,
+                    ]);
                     $this->addFlash('error', self::MODIFIER_EXCEPTION_MESSAGE);
                 }
             }
