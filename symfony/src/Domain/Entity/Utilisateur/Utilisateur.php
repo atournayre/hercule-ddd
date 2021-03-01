@@ -161,10 +161,9 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface
     }
 
     /**
-     * @return bool
      * @throws UtilisateurValidationException
      */
-    public function isValide(): bool
+    public function verifierValidite(): void
     {
         if (!$this->isEmailValide()) {
             throw new UtilisateurValidationException(self::EMAIL_INVALIDE_EXCEPTION_MESSAGE);
@@ -178,7 +177,6 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface
         if (!$this->isAbreviationValide()) {
             throw new UtilisateurValidationException(self::ABREVIATION_INVALIDE_EXCEPTION_MESSAGE);
         }
-        return true;
     }
 
     public function getResetToken(): string

@@ -59,7 +59,7 @@ class UtilisateurModificationService
             ->setAbreviation($utilisateurModificationVO->abreviation)
             ->setPrenom($utilisateurModificationVO->prenom);
 
-        $utilisateur->isValide();
+        $utilisateur->verifierValidite();
 
         $utilisateur = $this->utilisateurRepository->sauvegarder($utilisateur);
 
