@@ -4,14 +4,13 @@ namespace App\Domain\Entity\Utilisateur;
 
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
 use App\Domain\Interfaces\Utilisateur\UtilisateurValidationInterface;
+use App\Domain\Interfaces\ValidationInterface;
+use App\Domain\Utils\RegexPattern;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Utilisateur implements UserInterface, UtilisateurValidationInterface
+class Utilisateur implements UserInterface, UtilisateurValidationInterface, ValidationInterface
 {
     const ROLE_PAR_DEFAUT = 'ROLE_USER';
-
-    const EMAIL_PATTERN = '/^.+\@\S+\.\S+$/';
-    const ABREVIATION_VALIDATION_PATTERN = '/^[A-Z0-9]{3}$/';
 
     const EMAIL_INVALIDE_EXCEPTION_MESSAGE = 'L\'email de l\'utilisateur est invalide.';
     const NOM_INVALIDE_EXCEPTION_MESSAGE = 'Le nom de l\'utilisateur est invalide.';
@@ -121,7 +120,7 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface
     public function isEmailInvalide(): bool
     {
         return empty($this->email)
-            || !preg_match(self::EMAIL_PATTERN, $this->email);
+            || !preg_match(RegexPattern::EMAIL, $this->email);
     }
 
     public function isEmailValide(): bool
@@ -152,7 +151,7 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface
     public function isAbreviationInvalide(): bool
     {
         return empty($this->abreviation)
-            || !preg_match(self::ABREVIATION_VALIDATION_PATTERN, $this->abreviation);
+            || !preg_match(RegexPattern::ABREVIATION_VALIDATION, $this->abreviation);
     }
 
     public function isAbreviationValide(): bool
@@ -161,10 +160,9 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface
     }
 
     /**
-     * @return bool
      * @throws UtilisateurValidationException
      */
-    public function isValide(): bool
+    public function verifierValidite(): void
     {
         if (!$this->isEmailValide()) {
             throw new UtilisateurValidationException(self::EMAIL_INVALIDE_EXCEPTION_MESSAGE);
@@ -178,7 +176,6 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface
         if (!$this->isAbreviationValide()) {
             throw new UtilisateurValidationException(self::ABREVIATION_INVALIDE_EXCEPTION_MESSAGE);
         }
-        return true;
     }
 
     public function getResetToken(): string
@@ -193,30 +190,10 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface
 
     /**
      * @return $this
-     * @throws ChampInvalideException
-     * @throws EmailInvalideException
-     * @throws EmailVideException
      */
-    public function prePersist()
+    public function preFlush(): self
     {
-//        $this->nom = strtoupper($this->nom);
-//        $this->abreviation = strtoupper($this->abreviation);
-//        $this->validation();
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     * @throws ChampInvalideException
-     * @throws EmailInvalideException
-     * @throws EmailVideException
-     */
-    public function preUpdate()
-    {
-//        $this->nom = strtoupper($this->nom);
-//        $this->abreviation = strtoupper($this->abreviation);
-//        $this->validation();
+        $this->nom = strtoupper($this->nom);
 
         return $this;
     }

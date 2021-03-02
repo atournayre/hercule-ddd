@@ -112,27 +112,27 @@ class UtilisateurTest extends KernelTestCase
     {
         $this->expectException(UtilisateurValidationException::class);
         $utilisateur = $this->utilisateurFactory->creerUnUtilisateur();
-        $utilisateur->isValide();
+        $utilisateur->verifierValidite();
     }
 
     public function testLUtilisateurEstInvalideAvecNomInvalide()
     {
         $this->expectException(UtilisateurValidationException::class);
         $utilisateur = $this->utilisateurFactory->creerUnUtilisateur('a@a.com');
-        $utilisateur->isValide();
+        $utilisateur->verifierValidite();
     }
 
     public function testLUtilisateurEstInvalideAvecPrenomInvalide()
     {
         $this->expectException(UtilisateurValidationException::class);
         $utilisateur = $this->utilisateurFactory->creerUnUtilisateur('a@a.com', 'DUPONT');
-        $utilisateur->isValide();
+        $utilisateur->verifierValidite();
     }
 
     public function testLUtilisateurEstInvalideAvecAbreviationInvalide()
     {
         $this->expectException(UtilisateurValidationException::class);
         $utilisateur = $this->utilisateurFactory->creerUnUtilisateur('a@a.com', 'DUPONT', 'Marie');
-        $utilisateur->isValide();
+        $utilisateur->verifierValidite();
     }
 }

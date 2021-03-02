@@ -64,7 +64,7 @@ class UtilisateurCreationService
             $utilisateurVO->abreviation
         );
 
-        $utilisateur->isValide();
+        $utilisateur->verifierValidite();
 
         $utilisateur = $this->utilisateurRepository->sauvegarder($utilisateur);
 
