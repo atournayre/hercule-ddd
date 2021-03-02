@@ -24,6 +24,7 @@ class Utilisateur implements UserInterface
     protected $nom;
     protected $prenom;
     protected $abreviation;
+    protected $resetToken;
 
     public function getId(): int
     {
@@ -129,12 +130,22 @@ class Utilisateur implements UserInterface
 
     public function isNomValide(): bool
     {
-        return !empty(trim($this->nom));
+        return !$this->isNomInvalide();
+    }
+
+    public function isNomInvalide(): bool
+    {
+        return empty(trim($this->nom));
     }
 
     public function isPrenomValide(): bool
     {
-        return !empty(trim($this->prenom));
+        return !$this->isPrenomInvalide();
+    }
+
+    public function isPrenomInvalide(): bool
+    {
+        return empty(trim($this->prenom));
     }
 
     public function isAbreviationInvalide(): bool
@@ -167,5 +178,45 @@ class Utilisateur implements UserInterface
             throw new UtilisateurValidationException(self::ABREVIATION_INVALIDE_EXCEPTION_MESSAGE);
         }
         return true;
+    }
+
+    public function getResetToken(): string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): void
+    {
+        $this->resetToken = $resetToken;
+    }
+
+    /**
+     * @return $this
+     * @throws ChampInvalideException
+     * @throws EmailInvalideException
+     * @throws EmailVideException
+     */
+    public function prePersist()
+    {
+//        $this->nom = strtoupper($this->nom);
+//        $this->abreviation = strtoupper($this->abreviation);
+//        $this->validation();
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     * @throws ChampInvalideException
+     * @throws EmailInvalideException
+     * @throws EmailVideException
+     */
+    public function preUpdate()
+    {
+//        $this->nom = strtoupper($this->nom);
+//        $this->abreviation = strtoupper($this->abreviation);
+//        $this->validation();
+
+        return $this;
     }
 }
