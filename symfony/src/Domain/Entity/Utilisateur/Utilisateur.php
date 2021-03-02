@@ -17,12 +17,18 @@ class Utilisateur implements UserInterface
     const PRENOM_INVALIDE_EXCEPTION_MESSAGE = 'Le prénom de l\'utilisateur est invalide.';
     const ABREVIATION_INVALIDE_EXCEPTION_MESSAGE = 'L\'abréviation de l\'utilisateur est invalide.';
 
+    protected $id;
     protected $email;
     protected $password;
     protected $roles = [];
     protected $nom;
     protected $prenom;
     protected $abreviation;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     public function getRoles(): array
     {
@@ -110,12 +116,15 @@ class Utilisateur implements UserInterface
         return $this;
     }
 
+    public function isEmailInvalide(): bool
+    {
+        return empty($this->email)
+            || !preg_match(self::EMAIL_PATTERN, $this->email);
+    }
+
     public function isEmailValide(): bool
     {
-        if (empty($this->email) || !preg_match(self::EMAIL_PATTERN, $this->email)) {
-            return false;
-        }
-        return true;
+        return !$this->isEmailInvalide();
     }
 
     public function isNomValide(): bool
@@ -128,12 +137,15 @@ class Utilisateur implements UserInterface
         return !empty(trim($this->prenom));
     }
 
+    public function isAbreviationInvalide(): bool
+    {
+        return empty($this->abreviation)
+            || !preg_match(self::ABREVIATION_VALIDATION_PATTERN, $this->abreviation);
+    }
+
     public function isAbreviationValide(): bool
     {
-        if (empty($this->abreviation) || !preg_match(self::ABREVIATION_VALIDATION_PATTERN, $this->abreviation)) {
-            return false;
-        }
-        return true;
+        return !$this->isAbreviationInvalide();
     }
 
     /**
