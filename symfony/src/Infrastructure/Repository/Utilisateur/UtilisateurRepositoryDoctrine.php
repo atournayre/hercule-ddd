@@ -90,4 +90,19 @@ class UtilisateurRepositoryDoctrine extends ServiceEntityRepository implements U
         }
         return $this->findOneBy(['abreviation' => $abreviation]);
     }
+
+    /**
+     * @param int $id
+     * @return Utilisateur
+     * @throws UtilisateurNonTrouveException
+     */
+    public function findParId(int $id): Utilisateur
+    {
+        $utilisateur = $this->find($id);
+
+        if (is_null($utilisateur)) {
+            throw new UtilisateurNonTrouveException();
+        }
+        return $utilisateur;
+    }
 }

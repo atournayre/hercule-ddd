@@ -43,13 +43,13 @@ class UtilisateurModificationService
         if ($this->lEmailDeLUtilisateurAChange($utilisateur, $utilisateurModificationVO)) {
             $lEmailEstUnique = $this->utilisateurService->lEmailEstUnique($utilisateurModificationVO->email);
             if (!$lEmailEstUnique) {
-                throw new EmailNonUniqueException();
+                throw new EmailNonUniqueException($utilisateurModificationVO->email);
             }
         }
         if ($this->lAbreviationDeLUtilisateurAChange($utilisateur, $utilisateurModificationVO)) {
             $lAbreviationEstUnique = $this->utilisateurService->lAbreviationEstUnique($utilisateurModificationVO->abreviation);
             if (!$lAbreviationEstUnique) {
-                throw new AbreviationNonUniqueException();
+                throw new AbreviationNonUniqueException($utilisateurModificationVO->abreviation);
             }
         }
 

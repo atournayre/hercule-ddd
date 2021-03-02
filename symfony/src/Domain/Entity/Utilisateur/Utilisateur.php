@@ -3,14 +3,15 @@
 namespace App\Domain\Entity\Utilisateur;
 
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
+use App\Domain\Interfaces\Utilisateur\UtilisateurValidationInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Utilisateur implements UserInterface
+class Utilisateur implements UserInterface, UtilisateurValidationInterface
 {
     const ROLE_PAR_DEFAUT = 'ROLE_USER';
 
     const EMAIL_PATTERN = '/^.+\@\S+\.\S+$/';
-    const ABREVIATION_VALIDATION_PATTERN = '/^[A-Z]{3}$/';
+    const ABREVIATION_VALIDATION_PATTERN = '/^[A-Z0-9]{3}$/';
 
     const EMAIL_INVALIDE_EXCEPTION_MESSAGE = 'L\'email de l\'utilisateur est invalide.';
     const NOM_INVALIDE_EXCEPTION_MESSAGE = 'Le nom de l\'utilisateur est invalide.';

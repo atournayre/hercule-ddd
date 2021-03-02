@@ -81,4 +81,12 @@ class UtilisateurRepositoryInMemory implements UtilisateurRepositoryInterface
             self::$utilisateurs
         );
     }
+
+    public function findParId(int $id): Utilisateur
+    {
+        if (!array_key_exists($id, self::$utilisateurs)) {
+            throw new UtilisateurNonTrouveException();
+        }
+        return self::$utilisateurs[$id];
+    }
 }

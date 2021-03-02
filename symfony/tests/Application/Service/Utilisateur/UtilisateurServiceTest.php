@@ -5,6 +5,7 @@ namespace App\Tests\Application\Service\Utilisateur;
 use App\Application\Exception\AbreviationInvalideException;
 use App\Application\Exception\EmailInvalideException;
 use App\Application\Service\Utilisateur\UtilisateurService;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use App\Infrastructure\Repository\Utilisateur\InMemory\UtilisateurInMemoryPierre;
 use App\Infrastructure\Repository\Utilisateur\InMemory\UtilisateurRepositoryInMemory;
 use PHPUnit\Framework\TestCase;
@@ -66,5 +67,26 @@ class UtilisateurServiceTest extends TestCase
     {
         $this->expectException(AbreviationInvalideException::class);
         $this->utilisateurService->lAbreviationEstUnique(null);
+    }
+
+    public function testFindParIdNonExistant()
+    {
+        $this->expectException(UtilisateurNonTrouveException::class);
+        $utilisateurRepository = new UtilisateurRepositoryInMemory();
+        $this->utilisateurService = new UtilisateurService($utilisateurRepository);
+
+        $this->utilisateurService->findParId(UtilisateurInMemoryPierre::ID);
+    }
+
+    public function testFindParIdExistant()
+    {
+        $utilisateurRepository = new UtilisateurRepositoryInMemory();
+        $this->utilisateurService = new UtilisateurService($utilisateurRepository);
+        UtilisateurRepositoryInMemory::$utilisateurs = [
+            UtilisateurInMemoryPierre::ID => new UtilisateurInMemoryPierre(),
+        ];
+
+        $utilisateur = $this->utilisateurService->findParId(UtilisateurInMemoryPierre::ID);
+        $this->assertEquals(UtilisateurInMemoryPierre::EMAIL, $utilisateur->getEmail());
     }
 }
