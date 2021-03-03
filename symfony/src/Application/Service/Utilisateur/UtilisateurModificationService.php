@@ -9,6 +9,7 @@ use App\Application\Exception\EmailNonUniqueException;
 use App\Application\VO\Utilisateur\UtilisateurModificationVO;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
 use App\Domain\Entity\Utilisateur\Utilisateur;
+use App\Domain\Exception\ServiceNotFoundException;
 use App\Domain\Repository\Utilisateur\UtilisateurRepositoryInterface;
 
 class UtilisateurModificationService
@@ -37,15 +38,16 @@ class UtilisateurModificationService
      * @throws AbreviationInvalideException
      * @throws EmailInvalideException
      * @throws UtilisateurValidationException
+     * @throws ServiceNotFoundException
      */
     public function modifier(Utilisateur $utilisateur, UtilisateurModificationVO $utilisateurModificationVO): Utilisateur
     {
+        $utilisateurModificationVO->setUtilisateurRepository($this->utilisateurRepository);
+
         if ($this->lEmailDeLUtilisateurAChange($utilisateur, $utilisateurModificationVO)) {
-            $lEmailEstUnique = $this->utilisateurService->lEmailEstUnique($utilisateurModificationVO->email);
-            if (!$lEmailEstUnique) {
-                throw new EmailNonUniqueException($utilisateurModificationVO->email);
-            }
+            $utilisateurModificationVO->verifierUniciteEmail($utilisateurModificationVO->email);
         }
+
         if ($this->lAbreviationDeLUtilisateurAChange($utilisateur, $utilisateurModificationVO)) {
             $lAbreviationEstUnique = $this->utilisateurService->lAbreviationEstUnique($utilisateurModificationVO->abreviation);
             if (!$lAbreviationEstUnique) {

@@ -9,6 +9,7 @@ use App\Application\Exception\EmailNonUniqueException;
 use App\Application\VO\Utilisateur\UtilisateurVO;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
 use App\Domain\Entity\Utilisateur\Utilisateur;
+use App\Domain\Exception\ServiceNotFoundException;
 use App\Domain\Factory\Utilisateur\UtilisateurFactory;
 use App\Domain\Repository\Utilisateur\UtilisateurRepositoryInterface;
 
@@ -46,13 +47,14 @@ class UtilisateurCreationService
      * @throws EmailInvalideException
      * @throws EmailNonUniqueException
      * @throws UtilisateurValidationException
+     * @throws ServiceNotFoundException
      */
     public function __invoke(UtilisateurVO $utilisateurVO): Utilisateur
     {
-        $lEmailEstUnique = $this->utilisateurService->lEmailEstUnique($utilisateurVO->email);
-        if (!$lEmailEstUnique) {
-            throw new EmailNonUniqueException($utilisateurVO->email);
-        }
+        $utilisateurVO->setUtilisateurRepository($this->utilisateurRepository);
+
+        $utilisateurVO->verifierUniciteEmail();
+
         $lAbreviationEstUnique = $this->utilisateurService->lAbreviationEstUnique($utilisateurVO->abreviation);
         if (!$lAbreviationEstUnique) {
             throw new AbreviationNonUniqueException($utilisateurVO->abreviation);
