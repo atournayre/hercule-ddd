@@ -3,12 +3,14 @@
 namespace App\Domain\Entity\Utilisateur;
 
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
+use App\Domain\Interfaces\Pdf\PdfGeneratorInterface;
+use App\Domain\Interfaces\Utilisateur\UtilisateurPdfInterface;
 use App\Domain\Interfaces\Utilisateur\UtilisateurValidationInterface;
 use App\Domain\Interfaces\ValidationInterface;
 use App\Domain\Utils\RegexPattern;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Utilisateur implements UserInterface, UtilisateurValidationInterface, ValidationInterface
+class Utilisateur implements UserInterface, UtilisateurValidationInterface, ValidationInterface, PdfGeneratorInterface
 {
     const ROLE_PAR_DEFAUT = 'ROLE_USER';
 
@@ -196,5 +198,23 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface, Vali
         $this->nom = strtoupper($this->nom);
 
         return $this;
+    }
+
+    /**
+     * @var UtilisateurPdfInterface
+     */
+    private $utilisateurPdf;
+
+    /**
+     * @param UtilisateurPdfInterface $utilisateurPdf
+     */
+    public function setPdfService(UtilisateurPdfInterface $utilisateurPdf): void
+    {
+        $this->utilisateurPdf = $utilisateurPdf;
+    }
+
+    public function genererPdf(): string
+    {
+        return $this->utilisateurPdf->genererPdf($this);
     }
 }

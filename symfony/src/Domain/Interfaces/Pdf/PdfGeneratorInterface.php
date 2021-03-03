@@ -4,5 +4,5 @@ namespace App\Domain\Interfaces\Pdf;
 
 interface PdfGeneratorInterface
 {
-    public function generer(): string;
+    public function genererPdf(): string;
 }

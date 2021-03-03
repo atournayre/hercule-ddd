@@ -9,6 +9,7 @@ use App\Application\Exception\EmailNonUniqueException;
 use App\Application\Service\Utilisateur\UtilisateurCreationService;
 use App\Application\Service\Utilisateur\UtilisateurListeService;
 use App\Application\Service\Utilisateur\UtilisateurModificationService;
+use App\Application\Service\Utilisateur\UtilisateurPdfService;
 use App\Application\Service\Utilisateur\UtilisateurService;
 use App\Application\VO\Utilisateur\UtilisateurModificationVO;
 use App\Application\VO\Utilisateur\UtilisateurVO;
@@ -160,5 +161,20 @@ class UtilisateurController extends AbstractController
         return $this->render('utilisateur/formulaire.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    public function pdf(
+        UtilisateurService $utilisateurService,
+        UtilisateurPdfService $utilisateurPdfService,
+        int $id
+    ): Response
+    {
+        $utilisateur = $utilisateurService->findParId($id);
+
+        $utilisateur->setPdfService($utilisateurPdfService);
+
+        return new Response(
+            $utilisateur->genererPdf()
+        );
     }
 }
