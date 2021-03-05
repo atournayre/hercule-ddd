@@ -5,8 +5,8 @@ namespace App\Domain\Interfaces\Pdf;
 interface PdfServiceInterface
 {
     /**
-     * @param object $object
+     * @param EntitePdfInterface $entitePdfInterface
      * @return array
      */
-    public function getDonneesPourPdf($object): array;
+    public function getDonneesPourPdf(EntitePdfInterface $entitePdfInterface): array;
 }
