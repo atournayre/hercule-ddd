@@ -5,6 +5,7 @@ namespace App\Infrastructure\Service\Pdf;
 use App\Domain\Entity\Utilisateur\Utilisateur;
 use App\Domain\Interfaces\Pdf\GenererPdfServiceInterface;
 use App\Domain\Interfaces\Pdf\PdfServiceInterface;
+use InvalidArgumentException;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -19,12 +20,22 @@ class GenererPdfService implements GenererPdfServiceInterface
     /**
      * @var PdfServiceInterface
      */
-    protected $pdfService;
+    private $pdfService;
+    /**
+     * @var string
+     */
+    private $template;
 
-    public function __construct(Environment $environment, PdfServiceInterface $pdfService)
+    public function __construct(Environment $environment, PdfServiceInterface $pdfService, ?string $template = null)
     {
         $this->environment = $environment;
         $this->pdfService = $pdfService;
+
+        if (is_null($template)) {
+            throw new InvalidArgumentException('La génération d\'un PDF requiert un template.');
+        }
+
+        $this->template = $template;
     }
 
     /**
@@ -35,10 +46,10 @@ class GenererPdfService implements GenererPdfServiceInterface
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function genererPdf(string $template, $object): string
+    public function genererPdf($object): string
     {
         return $this->environment->render(
-            $template,
+            $this->template,
             $this->pdfService->getDonneesPourPdf($object)
         );
     }

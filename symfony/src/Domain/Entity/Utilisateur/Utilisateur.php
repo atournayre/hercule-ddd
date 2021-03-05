@@ -216,8 +216,8 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface, Vali
         return $this;
     }
 
-    public function genererPdf(string $template): string
+    public function genererPdf(): string
     {
-        return $this->genererPdfService->genererPdf($template, $this);
+        return $this->genererPdfService->genererPdf($this);
     }
 }

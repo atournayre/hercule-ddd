@@ -34,3 +34,4 @@ services:
         class: App\Infrastructure\Service\Pdf\GenererPdfService
         arguments:
             $pdfService: '@App\Application\Service\Utilisateur\UtilisateurPdfService'
+            $template: 'utilisateur/pdf.html.twig'
