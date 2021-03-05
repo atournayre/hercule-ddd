@@ -34,10 +34,6 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface, Vali
      */
     private $genererPdfService;
 
-    /**
-     * @param GenererPdfServiceInterface $genererPdfService
-     * @return $this
-     */
     public function setGenererPdfService(GenererPdfServiceInterface $genererPdfService): self
     {
         $this->genererPdfService = $genererPdfService;
