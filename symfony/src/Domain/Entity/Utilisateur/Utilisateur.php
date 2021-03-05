@@ -197,4 +197,9 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface, Vali
 
         return $this;
     }
+
+    public function lEmailAChange(?string $email = null): bool
+    {
+        return $this->email !== $email;
+    }
 }

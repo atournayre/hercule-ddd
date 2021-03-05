@@ -44,7 +44,7 @@ class UtilisateurModificationService
     {
         $utilisateurModificationVO->setUtilisateurRepository($this->utilisateurRepository);
 
-        if ($this->lEmailDeLUtilisateurAChange($utilisateur, $utilisateurModificationVO)) {
+        if ($utilisateur->lEmailAChange($utilisateurModificationVO->email)) {
             $utilisateurModificationVO->verifierUniciteEmail($utilisateurModificationVO->email);
         }
 
@@ -66,11 +66,6 @@ class UtilisateurModificationService
         $utilisateur = $this->utilisateurRepository->sauvegarder($utilisateur);
 
         return $utilisateur;
-    }
-
-    private function lEmailDeLUtilisateurAChange(Utilisateur $utilisateur, UtilisateurModificationVO $utilisateurModificationVO): bool
-    {
-        return $utilisateur->getEmail() !== $utilisateurModificationVO->email;
     }
 
     private function lAbreviationDeLUtilisateurAChange(Utilisateur $utilisateur, UtilisateurModificationVO $utilisateurModificationVO): bool
