@@ -9,3 +9,7 @@ utilisateur_creer:
 utilisateur_modifier:
   path: /{id}/modifier
   controller: App\Presentation\Controller\Utilisateur\UtilisateurController::modifier
+
+utilisateur_pdf:
+  path: /{id}/pdf
+  controller: App\Presentation\Controller\Utilisateur\UtilisateurController::pdf
