@@ -168,7 +168,7 @@ class UtilisateurController extends AbstractController
         try {
             $utilisateur = $utilisateurService->findParId($id);
             $utilisateur->setGenererPdfService($utilisateurGenererPdfService);
-            $response = $utilisateur->genererPdf('utilisateur/pdf.html.twig');
+            $response = $utilisateur->genererPdf();
         } catch (UtilisateurNonTrouveException $e) {
             $response = $e->getMessage();
         }

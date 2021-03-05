@@ -3,6 +3,7 @@
 namespace App\Domain\Entity\Utilisateur;
 
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
+use App\Domain\Interfaces\Pdf\EntitePdfInterface;
 use App\Domain\Interfaces\Pdf\GenererPdfInterface;
 use App\Domain\Interfaces\Pdf\GenererPdfServiceInterface;
 use App\Domain\Interfaces\Utilisateur\UtilisateurValidationInterface;
@@ -10,7 +11,7 @@ use App\Domain\Interfaces\ValidationInterface;
 use App\Domain\Utils\RegexPattern;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Utilisateur implements UserInterface, UtilisateurValidationInterface, ValidationInterface, GenererPdfInterface
+class Utilisateur implements UserInterface, UtilisateurValidationInterface, ValidationInterface, GenererPdfInterface, EntitePdfInterface
 {
     const ROLE_PAR_DEFAUT = 'ROLE_USER';
 

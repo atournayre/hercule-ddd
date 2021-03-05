@@ -5,8 +5,8 @@ namespace App\Domain\Interfaces\Pdf;
 interface GenererPdfServiceInterface
 {
     /**
-     * @param object $object
+     * @param EntitePdfInterface $entitePdf
      * @return string
      */
-    public function genererPdf($object): string;
+    public function genererPdf(EntitePdfInterface $entitePdf): string;
 }
