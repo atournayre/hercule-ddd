@@ -2,8 +2,8 @@
 
 namespace App\Domain\Repository\Utilisateur;
 
-use App\Application\Exception\AbreviationInvalideException;
-use App\Application\Exception\EmailInvalideException;
+use App\Application\Exception\AbreviationInvalideExceptionInterface;
+use App\Application\Exception\EmailInvalideExceptionInterface;
 use App\Domain\DTO\Utilisateur\UtilisateurListeDTO;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveExceptionInterface;
 use App\Domain\Entity\Utilisateur\Utilisateur;
@@ -13,14 +13,14 @@ interface UtilisateurRepositoryInterface
     /**
      * @param string|null $email
      * @return Utilisateur|null
-     * @throws EmailInvalideException
+     * @throws EmailInvalideExceptionInterface
      */
     public function findParEmail(?string $email): ?Utilisateur;
 
     /**
      * @param string|null $abreviation
      * @return Utilisateur|null
-     * @throws AbreviationInvalideException
+     * @throws AbreviationInvalideExceptionInterface
      */
     public function findParAbreviation(?string $abreviation): ?Utilisateur;
 
