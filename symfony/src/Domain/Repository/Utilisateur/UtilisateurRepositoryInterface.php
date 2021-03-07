@@ -5,7 +5,7 @@ namespace App\Domain\Repository\Utilisateur;
 use App\Application\Exception\AbreviationInvalideException;
 use App\Application\Exception\EmailInvalideException;
 use App\Domain\DTO\Utilisateur\UtilisateurListeDTO;
-use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
+use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveExceptionInterface;
 use App\Domain\Entity\Utilisateur\Utilisateur;
 
 interface UtilisateurRepositoryInterface
@@ -28,14 +28,14 @@ interface UtilisateurRepositoryInterface
 
     /**
      * @return UtilisateurListeDTO[]|array
-     * @throws UtilisateurNonTrouveException
+     * @throws UtilisateurNonTrouveExceptionInterface
      */
     public function liste(): array;
 
     /**
      * @param int $id
      * @return Utilisateur
-     * @throws UtilisateurNonTrouveException
+     * @throws UtilisateurNonTrouveExceptionInterface
      */
     public function findParId(int $id): Utilisateur;
 }
