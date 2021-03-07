@@ -30,13 +30,11 @@ class GenererPdfService implements GenererPdfServiceInterface
 
     public function __construct(Environment $environment, PdfServiceInterface $pdfService, ?string $template = null)
     {
-        $this->environment = $environment;
-        $this->pdfService = $pdfService;
-
         if (is_null($template)) {
             throw new InvalidArgumentException(self::TEMPLATE_MANQUANT_EXCEPTION_MESSAGE);
         }
-
+        $this->environment = $environment;
+        $this->pdfService = $pdfService;
         $this->template = $template;
     }
 
