@@ -14,6 +14,7 @@ use App\Application\VO\Utilisateur\UtilisateurModificationVO;
 use App\Application\VO\Utilisateur\UtilisateurVO;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurNonTrouveException;
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
+use App\Domain\Interfaces\Pdf\GenererPdfServiceInterface;
 use App\Infrastructure\Form\Utilisateur\UtilisateurType;
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -160,5 +161,18 @@ class UtilisateurController extends AbstractController
         return $this->render('utilisateur/formulaire.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    public function pdf(UtilisateurService $utilisateurService, GenererPdfServiceInterface $utilisateurGenererPdfService, int $id): Response
+    {
+        try {
+            $utilisateur = $utilisateurService->findParId($id);
+            $utilisateur->setGenererPdfService($utilisateurGenererPdfService);
+            $response = $utilisateur->genererPdf();
+        } catch (UtilisateurNonTrouveException $e) {
+            $response = $e->getMessage();
+        }
+
+        return new Response($response);
     }
 }

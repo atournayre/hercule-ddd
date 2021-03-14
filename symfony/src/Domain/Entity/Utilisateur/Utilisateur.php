@@ -3,12 +3,15 @@
 namespace App\Domain\Entity\Utilisateur;
 
 use App\Domain\Entity\Utilisateur\Exception\UtilisateurValidationException;
+use App\Domain\Interfaces\Pdf\EntitePdfInterface;
+use App\Domain\Interfaces\Pdf\GenererPdfInterface;
+use App\Domain\Interfaces\Pdf\GenererPdfServiceInterface;
 use App\Domain\Interfaces\Utilisateur\UtilisateurValidationInterface;
 use App\Domain\Interfaces\ValidationInterface;
 use App\Domain\Utils\RegexPattern;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Utilisateur implements UserInterface, UtilisateurValidationInterface, ValidationInterface
+class Utilisateur implements UserInterface, UtilisateurValidationInterface, ValidationInterface, GenererPdfInterface, EntitePdfInterface
 {
     const ROLE_PAR_DEFAUT = 'ROLE_USER';
 
@@ -25,6 +28,18 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface, Vali
     protected $prenom;
     protected $abreviation;
     protected $resetToken;
+
+    /**
+     * @var GenererPdfServiceInterface
+     */
+    private $genererPdfService;
+
+    public function setGenererPdfService(GenererPdfServiceInterface $genererPdfService): self
+    {
+        $this->genererPdfService = $genererPdfService;
+
+        return $this;
+    }
 
     public function getId(): int
     {
@@ -196,6 +211,11 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface, Vali
         $this->nom = strtoupper($this->nom);
 
         return $this;
+    }
+
+    public function genererPdf(): string
+    {
+        return $this->genererPdfService->genererPdf($this);
     }
 
     public function lEmailAChange(?string $email = null): bool
