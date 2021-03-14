@@ -217,4 +217,9 @@ class Utilisateur implements UserInterface, UtilisateurValidationInterface, Vali
     {
         return $this->genererPdfService->genererPdf($this);
     }
+
+    public function lEmailAChange(?string $email = null): bool
+    {
+        return $this->email !== $email;
+    }
 }
